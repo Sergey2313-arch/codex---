@@ -1,0 +1,212 @@
+:root {
+  --bg: #0f172a;
+  --card: #111827;
+  --card-soft: #1f2937;
+  --text: #e5e7eb;
+  --muted: #9ca3af;
+  --accent: #38bdf8;
+  --ok: #34d399;
+  --danger: #f87171;
+  --border: #334155;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+  background: radial-gradient(circle at top, #1e293b 0%, var(--bg) 45%);
+  color: var(--text);
+  display: grid;
+  place-items: center;
+  padding: 24px;
+}
+
+.app {
+  width: min(920px, 100%);
+  display: grid;
+  gap: 12px;
+}
+
+.app__header h1 {
+  margin: 0;
+  font-size: clamp(1.5rem, 2.2vw, 2.2rem);
+}
+
+.app__subtitle {
+  margin: 6px 0 0;
+  color: var(--muted);
+}
+
+.panel {
+  background: color-mix(in oklab, var(--card), black 12%);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 12px;
+}
+
+.create-form,
+.tools-row,
+.actions {
+  display: flex;
+  gap: 10px;
+}
+
+.tools-row--filters {
+  margin-top: 10px;
+}
+
+input,
+select,
+button {
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  font: inherit;
+}
+
+input,
+select {
+  background: var(--card-soft);
+  color: var(--text);
+  padding: 10px 12px;
+}
+
+#create-form,
+#todo-input,
+#search-input {
+  width: 100%;
+}
+
+#create-form,
+#todo-input {
+  flex: 1;
+}
+
+button {
+  cursor: pointer;
+  padding: 10px 12px;
+  background: var(--accent);
+  color: #062235;
+  font-weight: 700;
+}
+
+button:hover {
+  filter: brightness(1.06);
+}
+
+.chip {
+  background: transparent;
+  color: var(--text);
+}
+
+.chip.is-active {
+  background: var(--accent);
+}
+
+.todo-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 8px;
+}
+
+.todo-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--card-soft);
+  border: 1px solid #475569;
+  border-radius: 10px;
+  padding: 10px;
+  gap: 8px;
+}
+
+.todo-main {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+  min-width: 0;
+}
+
+.todo-checkbox {
+  inline-size: 18px;
+  block-size: 18px;
+  accent-color: var(--ok);
+}
+
+.todo-text {
+  overflow-wrap: anywhere;
+}
+
+.todo-item.is-done .todo-text {
+  text-decoration: line-through;
+  color: var(--muted);
+}
+
+.todo-actions {
+  display: flex;
+  gap: 6px;
+}
+
+.icon-btn {
+  padding: 6px 8px;
+  background: #334155;
+  color: var(--text);
+}
+
+.remove-btn {
+  background: color-mix(in oklab, var(--danger), #111 35%);
+}
+
+.btn-secondary {
+  background: #475569;
+  color: var(--text);
+}
+
+.btn-danger {
+  background: color-mix(in oklab, var(--danger), #111 10%);
+  color: #ffecec;
+}
+
+.panel--footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.stats {
+  color: var(--muted);
+}
+
+.empty-state {
+  margin: 0;
+  color: var(--muted);
+  text-align: center;
+  padding: 10px;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+
+@media (max-width: 640px) {
+  .create-form,
+  .tools-row,
+  .actions {
+    flex-direction: column;
+  }
+}
