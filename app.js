@@ -1,69 +1,129 @@
-const STORAGE_KEY = 'todo-list-items-v1';
+const STORAGE_KEY = 'todo-list-pro-v2';
+
+const state = {
+  todos: loadTodos(),
+  filter: 'all',
+  query: '',
+  sort: 'new',
+};
 
 const form = document.getElementById('todo-form');
 const input = document.getElementById('todo-input');
 const list = document.getElementById('todo-list');
-const emptyState = document.getElementById('todo-empty');
+const empty = document.getElementById('todo-empty');
+const stats = document.getElementById('stats');
+const searchInput = document.getElementById('search-input');
+const sortSelect = document.getElementById('sort-select');
 const clearCompletedButton = document.getElementById('clear-completed');
+const toggleAllButton = document.getElementById('toggle-all');
+const filterButtons = [...document.querySelectorAll('[data-filter]')];
+const template = document.getElementById('todo-item-template');
 
-let todos = loadTodos();
+form.addEventListener('submit', onCreate);
+list.addEventListener('click', onListClick);
+searchInput.addEventListener('input', () => {
+  state.query = searchInput.value.trim().toLowerCase();
+  render();
+});
+sortSelect.addEventListener('change', () => {
+  state.sort = sortSelect.value;
+  render();
+});
+clearCompletedButton.addEventListener('click', clearCompleted);
+toggleAllButton.addEventListener('click', toggleAll);
+
+filterButtons.forEach((button) => {
+  button.addEventListener('click', () => {
+    state.filter = button.dataset.filter;
+    filterButtons.forEach((btn) => {
+      const isActive = btn === button;
+      btn.classList.toggle('is-active', isActive);
+      btn.setAttribute('aria-selected', String(isActive));
+    });
+    render();
+  });
+});
+
 render();
 
-form.addEventListener('submit', (event) => {
+function onCreate(event) {
   event.preventDefault();
-
   const text = input.value.trim();
   if (!text) return;
 
-  todos.unshift({
+  state.todos.unshift({
     id: crypto.randomUUID(),
     text,
     done: false,
+    createdAt: Date.now(),
   });
 
   input.value = '';
-  saveAndRender();
-});
+  persist();
+  render();
+}
 
-list.addEventListener('click', (event) => {
+function onListClick(event) {
   const target = event.target;
   if (!(target instanceof HTMLElement)) return;
 
   const item = target.closest('.todo-item');
-  if (!item) return;
+  if (!item?.dataset.id) return;
+  const id = item.dataset.id;
 
-  const { id } = item.dataset;
-  if (!id) return;
-
-  if (target.matches('input[type="checkbox"]')) {
-    todos = todos.map((todo) =>
+  if (target.classList.contains('todo-checkbox')) {
+    state.todos = state.todos.map((todo) =>
       todo.id === id ? { ...todo, done: !todo.done } : todo
     );
-    saveAndRender();
+    persist();
+    render();
     return;
   }
 
-  if (target.matches('.todo-remove')) {
-    todos = todos.filter((todo) => todo.id !== id);
-    saveAndRender();
+  if (target.classList.contains('remove-btn')) {
+    state.todos = state.todos.filter((todo) => todo.id !== id);
+    persist();
+    render();
+    return;
   }
-});
 
-clearCompletedButton.addEventListener('click', () => {
-  todos = todos.filter((todo) => !todo.done);
-  saveAndRender();
-});
+  if (target.classList.contains('edit-btn')) {
+    const current = state.todos.find((todo) => todo.id === id);
+    if (!current) return;
 
-function saveAndRender() {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(todos));
+    const next = prompt('Измени задачу:', current.text);
+    if (next === null) return;
+
+    const text = next.trim();
+    if (!text) return;
+
+    state.todos = state.todos.map((todo) => (todo.id === id ? { ...todo, text } : todo));
+    persist();
+    render();
+  }
+}
+
+function clearCompleted() {
+  state.todos = state.todos.filter((todo) => !todo.done);
+  persist();
   render();
+}
+
+function toggleAll() {
+  const hasActive = state.todos.some((todo) => !todo.done);
+  state.todos = state.todos.map((todo) => ({ ...todo, done: hasActive }));
+  persist();
+  render();
+}
+
+function persist() {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(state.todos));
 }
 
 function loadTodos() {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
     if (!raw) return [];
-
     const parsed = JSON.parse(raw);
     return Array.isArray(parsed) ? parsed : [];
   } catch {
@@ -71,23 +131,55 @@ function loadTodos() {
   }
 }
 
+function getVisibleTodos() {
+  let list = [...state.todos];
+
+  if (state.filter === 'active') list = list.filter((todo) => !todo.done);
+  if (state.filter === 'done') list = list.filter((todo) => todo.done);
+  if (state.query) {
+    list = list.filter((todo) => todo.text.toLowerCase().includes(state.query));
+  }
+
+  switch (state.sort) {
+    case 'old':
+      list.sort((a, b) => (a.createdAt ?? 0) - (b.createdAt ?? 0));
+      break;
+    case 'az':
+      list.sort((a, b) => a.text.localeCompare(b.text, 'ru'));
+      break;
+    case 'za':
+      list.sort((a, b) => b.text.localeCompare(a.text, 'ru'));
+      break;
+    default:
+      list.sort((a, b) => (b.createdAt ?? 0) - (a.createdAt ?? 0));
+      break;
+  }
+
+  return list;
+}
+
 function render() {
   list.innerHTML = '';
+  const visible = getVisibleTodos();
 
-  todos.forEach((todo) => {
-    const li = document.createElement('li');
-    li.className = `todo-item${todo.done ? ' completed' : ''}`;
-    li.dataset.id = todo.id;
+  visible.forEach((todo) => {
+    const fragment = template.content.cloneNode(true);
+    const item = fragment.querySelector('.todo-item');
+    const checkbox = fragment.querySelector('.todo-checkbox');
+    const text = fragment.querySelector('.todo-text');
 
-    li.innerHTML = `
-      <input type="checkbox" ${todo.done ? 'checked' : ''} aria-label="Отметить задачу" />
-      <span class="todo-text"></span>
-      <button type="button" class="todo-remove" aria-label="Удалить задачу">✕</button>
-    `;
+    item.dataset.id = todo.id;
+    item.classList.toggle('is-done', todo.done);
+    checkbox.checked = todo.done;
+    text.textContent = todo.text;
 
-    li.querySelector('.todo-text').textContent = todo.text;
-    list.append(li);
+    list.append(fragment);
   });
 
-  emptyState.hidden = todos.length !== 0;
+  empty.hidden = visible.length > 0;
+
+  const total = state.todos.length;
+  const done = state.todos.filter((todo) => todo.done).length;
+  const active = total - done;
+  stats.textContent = `Всего: ${total} • Активных: ${active} • Выполненных: ${done}`;
 }
