@@ -74,13 +74,13 @@ select {
   padding: 10px 12px;
 }
 
-#create-form,
+.create-form,
 #todo-input,
 #search-input {
   width: 100%;
 }
 
-#create-form,
+.create-form,
 #todo-input {
   flex: 1;
 }

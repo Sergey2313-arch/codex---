@@ -64,14 +64,18 @@ function onCreate(event) {
 }
 
 function onListClick(event) {
-  const target = event.target;
-  if (!(target instanceof HTMLElement)) return;
+  const targetElement = event.target instanceof HTMLElement ? event.target : event.target.parentElement;
+  if (!(targetElement instanceof HTMLElement)) return;
 
-  const item = target.closest('.todo-item');
+  const item = targetElement.closest('.todo-item');
   if (!item?.dataset.id) return;
   const id = item.dataset.id;
 
-  if (target.classList.contains('todo-checkbox')) {
+  const checkbox = targetElement.closest('.todo-checkbox') || targetElement.closest('.todo-main');
+  const removeBtn = targetElement.closest('.remove-btn');
+  const editBtn = targetElement.closest('.edit-btn');
+
+  if (checkbox) {
     state.todos = state.todos.map((todo) =>
       todo.id === id ? { ...todo, done: !todo.done } : todo
     );
@@ -80,14 +84,14 @@ function onListClick(event) {
     return;
   }
 
-  if (target.classList.contains('remove-btn')) {
+  if (removeBtn) {
     state.todos = state.todos.filter((todo) => todo.id !== id);
     persist();
     render();
     return;
   }
 
-  if (target.classList.contains('edit-btn')) {
+  if (editBtn) {
     const current = state.todos.find((todo) => todo.id === id);
     if (!current) return;
 
