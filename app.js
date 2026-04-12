@@ -94,6 +94,10 @@ function applyGreeting(name) {
 
 function showAppImmediately() {
   app.classList.remove('app--hidden');
+  app.classList.remove('app--enter');
+  // force reflow so animation always restarts
+  void app.offsetWidth;
+  app.classList.add('app--enter');
   input.focus();
 }
 
@@ -230,13 +234,14 @@ function render() {
   list.innerHTML = '';
   const visible = getVisibleTodos();
 
-  visible.forEach((todo) => {
+  visible.forEach((todo, index) => {
     const fragment = template.content.cloneNode(true);
     const item = fragment.querySelector('.todo-item');
     const checkbox = fragment.querySelector('.todo-checkbox');
     const text = fragment.querySelector('.todo-text');
 
     item.dataset.id = todo.id;
+    item.style.animationDelay = `${Math.min(index * 35, 240)}ms`;
     item.classList.toggle('is-done', todo.done);
     checkbox.checked = todo.done;
     text.textContent = todo.text;
