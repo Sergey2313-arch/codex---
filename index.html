@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TodoList Flow</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <section id="intro" class="intro" aria-labelledby="intro-title">
+      <div class="intro__card glass">
+        <p class="intro__badge">TodoList Flow</p>
+        <h1 id="intro-title">Начни пользоваться TodoList</h1>
+        <p class="intro__text">Стильно, плавно и с полным сохранением твоих задач.</p>
+
+        <form id="intro-form" class="intro__form">
+          <label for="name-input" class="sr-only">Имя (необязательно)</label>
+          <input id="name-input" type="text" maxlength="30" placeholder="Твоё имя (необязательно)" />
+          <button id="start-btn" type="submit">Начать</button>
+        </form>
+      </div>
+    </section>
+
+    <main id="app" class="app app--hidden" aria-labelledby="title">
+      <header class="app__header glass">
+        <h2 id="title">TodoList Flow</h2>
+        <p id="hello-text" class="app__subtitle">Планируй дела и ничего не теряй.</p>
+      </header>
+
+      <section class="panel glass" aria-label="Добавление задач">
+        <form id="todo-form" class="create-form">
+          <label for="todo-input" class="sr-only">Новая задача</label>
+          <input id="todo-input" type="text" maxlength="120" placeholder="Что нужно сделать?" autocomplete="off" required />
+          <button type="submit">Добавить</button>
+        </form>
+      </section>
+
+      <section class="panel glass" aria-label="Инструменты">
+        <div class="tools-row">
+          <input id="search-input" type="search" placeholder="Поиск" aria-label="Поиск по задачам" />
+          <select id="sort-select" aria-label="Сортировка задач">
+            <option value="new">Сначала новые</option>
+            <option value="old">Сначала старые</option>
+            <option value="az">А-Я</option>
+            <option value="za">Я-А</option>
+          </select>
+        </div>
+        <div class="tools-row tools-row--filters" role="tablist" aria-label="Фильтр задач">
+          <button class="chip is-active" type="button" data-filter="all" role="tab" aria-selected="true">Все</button>
+          <button class="chip" type="button" data-filter="active" role="tab" aria-selected="false">Активные</button>
+          <button class="chip" type="button" data-filter="done" role="tab" aria-selected="false">Готово</button>
+        </div>
+      </section>
+
+      <section class="panel glass" aria-label="Список задач">
+        <ul id="todo-list" class="todo-list" aria-live="polite"></ul>
+        <p id="todo-empty" class="empty-state">Пока пусто. Добавь первую задачу ✨</p>
+      </section>
+
+      <footer class="panel glass panel--footer" aria-label="Управление списком">
+        <div id="stats" class="stats"></div>
+        <div class="actions">
+          <button id="toggle-all" type="button" class="btn-secondary">Переключить все</button>
+          <button id="clear-completed" type="button" class="btn-danger">Удалить выполненные</button>
+        </div>
+      </footer>
+    </main>
+
+    <template id="todo-item-template">
+      <li class="todo-item">
+        <label class="todo-main">
+          <input class="todo-checkbox" type="checkbox" />
+          <span class="todo-text"></span>
+        </label>
+        <div class="todo-actions">
+          <button type="button" class="icon-btn edit-btn" aria-label="Редактировать">✎</button>
+          <button type="button" class="icon-btn remove-btn" aria-label="Удалить">✕</button>
+        </div>
+      </li>
+    </template>
+
+    <script src="app.js"></script>
+  </body>
+</html>
