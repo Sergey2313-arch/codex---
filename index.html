@@ -7,7 +7,16 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <main class="app" aria-labelledby="title">
+    <div id="intro-screen" class="intro-screen" role="dialog" aria-modal="true" aria-labelledby="intro-title">
+      <div class="intro-card">
+        <p class="intro-label">Добро пожаловать</p>
+        <h1 id="intro-title">TodoList Pro</h1>
+        <p class="intro-text">Удобный список задач с поиском, фильтрами и сохранением. Начни пользоваться прямо сейчас.</p>
+        <button id="start-button" class="btn-primary" type="button">Начать пользоваться</button>
+      </div>
+    </div>
+
+    <main class="app app--hidden" aria-labelledby="title">
       <header class="app__header">
         <h1 id="title">TodoList Pro</h1>
         <p class="app__subtitle">Быстрый список задач с фильтрами, поиском и сохранением.</p>
@@ -42,6 +51,71 @@
         <ul id="todo-list" class="todo-list" aria-live="polite"></ul>
         <p id="todo-empty" class="empty-state">Ничего не найдено. Добавьте первую задачу ✨</p>
       </section>
+
+      <div id="settings-backdrop" class="settings-backdrop hidden" aria-hidden="true"></div>
+      <section id="settings-panel" class="settings-sidebar panel" aria-label="Настройки">
+        <div class="settings-sidebar__header">
+          <div>
+            <p class="settings-label">Настройки</p>
+            <h2 class="settings-panel__title">Фон, VIP и стиль</h2>
+          </div>
+          <button id="settings-close" type="button" class="icon-btn close-btn" aria-label="Закрыть настройки">✕</button>
+        </div>
+        <div class="settings-panel__group">
+          <p class="settings-text">Выберите фон, шрифт и закажите VIP для дополнительных эффектов.</p>
+        </div>
+        <div class="settings-panel__group">
+          <button id="vip-open-button" type="button" class="btn-secondary btn-block">Открыть VIP страницу</button>
+          <p class="settings-hint">VIP-страница откроется как отдельное окно с эксклюзивными предложениями.</p>
+        </div>
+        <div class="settings-panel__group">
+          <p class="settings-label">Тема</p>
+          <div class="settings-row">
+            <button type="button" class="settings-btn is-active" data-theme="dark">Тёмный</button>
+            <button type="button" class="settings-btn" data-theme="purple">Фиолетовый</button>
+          </div>
+        </div>
+        <div class="settings-panel__group">
+          <p class="settings-label">Шрифт</p>
+          <div class="settings-row">
+            <button type="button" class="settings-btn is-active" data-font="normal">Классический</button>
+            <button type="button" class="settings-btn" data-font="modern">Modern</button>
+          </div>
+        </div>
+      </section>
+
+      <div id="vip-screen" class="vip-screen hidden" aria-labelledby="vip-title" aria-modal="true" role="dialog">
+        <div class="vip-card">
+          <button id="vip-close-button" type="button" class="icon-btn close-btn" aria-label="Закрыть VIP">✕</button>
+          <p class="intro-label">VIP Plus</p>
+          <h1 id="vip-title">Эксклюзивные возможности</h1>
+          <p class="intro-text">Вы получите расширенные темы, эффекты, анимации и приоритетный доступ к будущим функциям.</p>
+          <div class="vip-tabs" role="tablist">
+            <button type="button" class="vip-tab-btn is-active" data-plan="month" role="tab" aria-selected="true">1 месяц</button>
+            <button type="button" class="vip-tab-btn" data-plan="year" role="tab" aria-selected="false">1 год</button>
+            <button type="button" class="vip-tab-btn" data-plan="two-years" role="tab" aria-selected="false">2 года</button>
+          </div>
+          <div class="vip-plan vip-plan--active" data-plan="month">
+            <p class="vip-plan__price">1500 ₽</p>
+            <p class="vip-plan__desc">Краткая подписка на месяц: эффекты, темы и базовый VIP-доступ.</p>
+          </div>
+          <div class="vip-plan" data-plan="year">
+            <p class="vip-plan__price">3000 ₽</p>
+            <p class="vip-plan__desc">Годовая подписка: полный набор Premium-стилей и приоритетные обновления.</p>
+          </div>
+          <div class="vip-plan" data-plan="two-years">
+            <p class="vip-plan__price">5000 ₽</p>
+            <p class="vip-plan__desc">Подписка на 2 года: максимальная экономия и эксклюзивные функции.</p>
+          </div>
+          <button type="button" class="btn-primary">Купить VIP</button>
+        </div>
+      </div>
+
+      <button id="settings-toggle" type="button" class="settings-toggle" aria-label="Открыть настройки">
+        <svg viewBox="0 0 24 24" class="settings-toggle__icon" aria-hidden="true">
+          <path d="M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8Zm9.4 4.25-2.03-.4a7.1 7.1 0 0 0-.55-1.32l1.2-1.68a.75.75 0 0 0-.1-.98l-1.5-1.5a.75.75 0 0 0-.98-.1l-1.68 1.2c-.4-.24-.82-.43-1.32-.55l-.4-2.03A.75.75 0 0 0 14.8 4h-1.6a.75.75 0 0 0-.74.62l-.4 2.03c-.5.12-.92.31-1.32.55l-1.68-1.2a.75.75 0 0 0-.98.1l-1.5 1.5a.75.75 0 0 0-.1.98l1.2 1.68c-.24.4-.43.82-.55 1.32l-2.03.4A.75.75 0 0 0 4 12.8v1.6c0 .4.31.74.7.75l2.03.4c.12.5.31.92.55 1.32l-1.2 1.68a.75.75 0 0 0 .1.98l1.5 1.5c.3.3.78.32 1.08.1l1.68-1.2c.4.24.82.43 1.32.55l.4 2.03c.04.4.39.7.79.7h1.6c.4 0 .74-.31.75-.7l.4-2.03c.5-.12.92-.31 1.32-.55l1.68 1.2c.3.22.78.2 1.08-.1l1.5-1.5c.3-.3.32-.78.1-1.08l-1.2-1.68c.24-.4.43-.82.55-1.32l2.03-.4c.4-.08.7-.43.7-.83v-1.6c0-.4-.3-.75-.7-.83Z"/>
+        </svg>
+      </button>
 
       <footer class="panel panel--footer" aria-label="Управление списком">
         <div id="stats" class="stats"></div>

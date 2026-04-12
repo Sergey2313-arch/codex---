@@ -18,19 +18,74 @@ const clearCompletedButton = document.getElementById('clear-completed');
 const toggleAllButton = document.getElementById('toggle-all');
 const filterButtons = [...document.querySelectorAll('[data-filter]')];
 const template = document.getElementById('todo-item-template');
+const settingsPanel = document.getElementById('settings-panel');
+const settingsBackdrop = document.getElementById('settings-backdrop');
+const settingsToggle = document.getElementById('settings-toggle');
+const settingsCloseButton = document.getElementById('settings-close');
+const vipScreen = document.getElementById('vip-screen');
+const vipOpenButton = document.getElementById('vip-open-button');
+const vipCloseButton = document.getElementById('vip-close-button');
+const introScreen = document.getElementById('intro-screen');
+const startButton = document.getElementById('start-button');
+const themeButtons = [...document.querySelectorAll('[data-theme]')];
+const fontButtons = [...document.querySelectorAll('[data-font]')];
+const vipTabButtons = [...document.querySelectorAll('.vip-tab-btn')];
+const vipPlans = [...document.querySelectorAll('.vip-plan')];
+const appContainer = document.querySelector('.app');
+
+let selectedTheme = 'dark';
+let selectedFont = 'normal';
+let selectedVipPlan = 'month';
 
 form.addEventListener('submit', onCreate);
 list.addEventListener('click', onListClick);
+settingsToggle.addEventListener('click', toggleSettingsPanel);
+settingsCloseButton.addEventListener('click', closeSettingsPanel);
+vipOpenButton.addEventListener('click', openVipScreen);
+vipCloseButton.addEventListener('click', closeVipScreen);
+startButton.addEventListener('click', startApp);
 searchInput.addEventListener('input', () => {
   state.query = searchInput.value.trim().toLowerCase();
   render();
 });
+
+themeButtons.forEach((button) => {
+  button.addEventListener('click', () => {
+    selectedTheme = button.dataset.theme;
+    themeButtons.forEach((btn) => btn.classList.toggle('is-active', btn.dataset.theme === selectedTheme));
+    document.body.classList.toggle('theme-purple', selectedTheme === 'purple');
+  });
+});
+
+fontButtons.forEach((button) => {
+  button.addEventListener('click', () => {
+    selectedFont = button.dataset.font;
+    fontButtons.forEach((btn) => btn.classList.toggle('is-active', btn.dataset.font === selectedFont));
+    document.body.classList.toggle('font-modern', selectedFont === 'modern');
+  });
+});
+
+vipTabButtons.forEach((button) => {
+  button.addEventListener('click', () => {
+    selectedVipPlan = button.dataset.plan;
+    vipTabButtons.forEach((btn) => {
+      const isActive = btn.dataset.plan === selectedVipPlan;
+      btn.classList.toggle('is-active', isActive);
+      btn.setAttribute('aria-selected', String(isActive));
+    });
+    vipPlans.forEach((panel) => {
+      panel.classList.toggle('vip-plan--active', panel.dataset.plan === selectedVipPlan);
+    });
+  });
+});
+
 sortSelect.addEventListener('change', () => {
   state.sort = sortSelect.value;
   render();
 });
 clearCompletedButton.addEventListener('click', clearCompleted);
 toggleAllButton.addEventListener('click', toggleAll);
+settingsBackdrop.addEventListener('click', closeSettingsPanel);
 
 filterButtons.forEach((button) => {
   button.addEventListener('click', () => {
@@ -61,6 +116,17 @@ function onCreate(event) {
   input.value = '';
   persist();
   render();
+}
+
+function startApp() {
+  introScreen.classList.add('intro-screen--hidden');
+  appContainer.classList.remove('app--hidden');
+  appContainer.classList.add('is-ready');
+  document.body.classList.toggle('theme-purple', selectedTheme === 'purple');
+  document.body.classList.toggle('font-modern', selectedFont === 'modern');
+  setTimeout(() => {
+    introScreen.remove();
+  }, 500);
 }
 
 function onListClick(event) {
@@ -163,9 +229,9 @@ function getVisibleTodos() {
 }
 
 function render() {
-  list.innerHTML = '';
   const visible = getVisibleTodos();
 
+  list.innerHTML = '';
   visible.forEach((todo) => {
     const fragment = template.content.cloneNode(true);
     const item = fragment.querySelector('.todo-item');
@@ -186,4 +252,29 @@ function render() {
   const done = state.todos.filter((todo) => todo.done).length;
   const active = total - done;
   stats.textContent = `Всего: ${total} • Активных: ${active} • Выполненных: ${done}`;
+}
+
+function toggleSettingsPanel() {
+  const isOpen = settingsPanel.classList.contains('open');
+  settingsPanel.classList.toggle('open', !isOpen);
+  settingsToggle.classList.toggle('settings-toggle--active', !isOpen);
+  settingsBackdrop.classList.toggle('hidden', isOpen);
+}
+
+function closeSettingsPanel() {
+  settingsPanel.classList.remove('open');
+  settingsToggle.classList.remove('settings-toggle--active');
+  settingsBackdrop.classList.add('hidden');
+}
+
+function openVipScreen() {
+  closeSettingsPanel();
+  vipScreen.classList.add('open');
+  vipScreen.classList.remove('hidden');
+  document.body.classList.add('no-scroll');
+}
+
+function closeVipScreen() {
+  vipScreen.classList.remove('open');
+  document.body.classList.remove('no-scroll');
 }
