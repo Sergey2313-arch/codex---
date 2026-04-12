@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TodoList</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <main class="todo-app">
+      <h1>TodoList</h1>
+
+      <form id="todo-form" class="todo-form">
+        <label for="todo-input" class="sr-only">Новая задача</label>
+        <input
+          id="todo-input"
+          type="text"
+          placeholder="Добавьте задачу..."
+          autocomplete="off"
+          required
+        />
+        <button type="submit">Добавить</button>
+      </form>
+
+      <div class="todo-controls">
+        <button type="button" id="clear-completed">Удалить выполненные</button>
+      </div>
+
+      <ul id="todo-list" class="todo-list" aria-live="polite"></ul>
+      <p id="todo-empty" class="todo-empty">Список задач пуст.</p>
+    </main>
+
+    <script src="app.js"></script>
+  </body>
+</html>
