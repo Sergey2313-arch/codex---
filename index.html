@@ -3,141 +3,219 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>TodoList Pro</title>
+    <meta name="description" content="Портфолио Сергея Коробкова — Junior .NET / ASP.NET Core разработчика." />
+    <meta name="theme-color" content="#09020f" />
+    <title>Sergey Korobkov — .NET Developer</title>
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <div id="intro-screen" class="intro-screen" role="dialog" aria-modal="true" aria-labelledby="intro-title">
-      <div class="intro-card">
-        <p class="intro-label">Добро пожаловать</p>
-        <h1 id="intro-title">TodoList Pro</h1>
-        <p class="intro-text">Удобный список задач с поиском, фильтрами и сохранением. Начни пользоваться прямо сейчас.</p>
-        <button id="start-button" class="btn-primary" type="button">Начать пользоваться</button>
-      </div>
-    </div>
+    <div class="noise" aria-hidden="true"></div>
+    <div class="orb orb--one" aria-hidden="true"></div>
+    <div class="orb orb--two" aria-hidden="true"></div>
 
-    <main class="app app--hidden" aria-labelledby="title">
-      <header class="app__header">
-        <h1 id="title">TodoList Pro</h1>
-        <p class="app__subtitle">Быстрый список задач с фильтрами, поиском и сохранением.</p>
-      </header>
+    <header class="header">
+      <a class="brand" href="#top" aria-label="На главную">
+        <span class="brand__mark">R</span>
+        <span>Revive<span class="accent">Code</span></span>
+      </a>
 
-      <section class="panel panel--create" aria-label="Добавление задач">
-        <form id="todo-form" class="create-form">
-          <label for="todo-input" class="sr-only">Новая задача</label>
-          <input id="todo-input" type="text" maxlength="120" placeholder="Что нужно сделать?" autocomplete="off" required />
-          <button type="submit">Добавить</button>
-        </form>
-      </section>
+      <nav class="nav" aria-label="Основная навигация">
+        <a href="#projects">Проекты</a>
+        <a href="#stack">Стек</a>
+        <a href="#about">Обо мне</a>
+      </nav>
 
-      <section class="panel panel--tools" aria-label="Инструменты">
-        <div class="tools-row">
-          <input id="search-input" type="search" placeholder="Поиск по задачам" aria-label="Поиск по задачам" />
-          <select id="sort-select" aria-label="Сортировка задач">
-            <option value="new">Сначала новые</option>
-            <option value="old">Сначала старые</option>
-            <option value="az">По алфавиту А-Я</option>
-            <option value="za">По алфавиту Я-А</option>
-          </select>
+      <a class="button button--small button--ghost" href="https://github.com/Sergey2313-arch" target="_blank" rel="noreferrer">
+        GitHub
+      </a>
+    </header>
+
+    <main id="top">
+      <section class="hero section">
+        <div class="hero__content reveal">
+          <p class="eyebrow"><span class="status-dot"></span> Открыт к предложениям</p>
+          <h1>
+            Создаю веб-приложения на
+            <span class="gradient-text">C# и .NET</span>
+          </h1>
+          <p class="hero__lead">
+            Сергей Коробков — начинающий .NET / Full-stack разработчик. Работаю с ASP.NET Core,
+            Blazor, Razor Pages, Entity Framework Core, SQL Server и React.
+          </p>
+
+          <div class="hero__actions">
+            <a class="button" href="#projects">Смотреть проекты</a>
+            <a class="button button--ghost" href="https://github.com/Sergey2313-arch" target="_blank" rel="noreferrer">
+              Открыть GitHub
+            </a>
+          </div>
+
+          <div class="hero__stats" aria-label="Краткая статистика">
+            <div>
+              <strong>3</strong>
+              <span>основных проекта</span>
+            </div>
+            <div>
+              <strong>.NET 8</strong>
+              <span>основной стек</span>
+            </div>
+            <div>
+              <strong>Full-stack</strong>
+              <span>направление развития</span>
+            </div>
+          </div>
         </div>
-        <div class="tools-row tools-row--filters" role="tablist" aria-label="Фильтр задач">
-          <button class="chip is-active" type="button" data-filter="all" role="tab" aria-selected="true">Все</button>
-          <button class="chip" type="button" data-filter="active" role="tab" aria-selected="false">Активные</button>
-          <button class="chip" type="button" data-filter="done" role="tab" aria-selected="false">Выполненные</button>
+
+        <div class="hero__visual reveal" aria-label="Карточка разработчика">
+          <div class="terminal-card">
+            <div class="terminal-card__top">
+              <span></span><span></span><span></span>
+              <p>developer.cs</p>
+            </div>
+            <pre><code><span class="code-purple">public class</span> <span class="code-cyan">Developer</span>
+{
+    <span class="code-purple">public string</span> Name = <span class="code-green">"Sergey"</span>;
+    <span class="code-purple">public string[]</span> Stack =
+    {
+        <span class="code-green">"C#"</span>, <span class="code-green">"ASP.NET Core"</span>,
+        <span class="code-green">"Blazor"</span>, <span class="code-green">"EF Core"</span>,
+        <span class="code-green">"React"</span>, <span class="code-green">"SQL Server"</span>
+    };
+
+    <span class="code-purple">public string</span> Goal =&gt;
+        <span class="code-green">"Build useful products"</span>;
+}</code></pre>
+          </div>
         </div>
       </section>
 
-      <section class="panel panel--list" aria-label="Список задач">
-        <ul id="todo-list" class="todo-list" aria-live="polite"></ul>
-        <p id="todo-empty" class="empty-state">Ничего не найдено. Добавьте первую задачу ✨</p>
-      </section>
-
-      <div id="settings-backdrop" class="settings-backdrop hidden" aria-hidden="true"></div>
-      <section id="settings-panel" class="settings-sidebar panel" aria-label="Настройки">
-        <div class="settings-sidebar__header">
+      <section id="projects" class="section">
+        <div class="section-heading reveal">
           <div>
-            <p class="settings-label">Настройки</p>
-            <h2 class="settings-panel__title">Фон, VIP и стиль</h2>
+            <p class="eyebrow">Избранные работы</p>
+            <h2>Проекты, которые показывают мои навыки</h2>
           </div>
-          <button id="settings-close" type="button" class="icon-btn close-btn" aria-label="Закрыть настройки">✕</button>
+          <p>Не просто учебные задания, а рабочие приложения с базами данных, API, CRUD и адаптивным интерфейсом.</p>
         </div>
-        <div class="settings-panel__group">
-          <p class="settings-text">Выберите фон, шрифт и закажите VIP для дополнительных эффектов.</p>
+
+        <div class="projects-grid">
+          <article class="project-card project-card--featured reveal">
+            <div class="project-card__number">01</div>
+            <div class="project-card__body">
+              <p class="project-card__type">ASP.NET Core · Blazor</p>
+              <h3>Movies Catalog</h3>
+              <p>
+                Каталог фильмов с полным CRUD, поиском, сортировкой, пагинацией и выбором количества записей.
+                Данные хранятся в SQL Server через Entity Framework Core.
+              </p>
+              <ul class="tags" aria-label="Технологии проекта">
+                <li>C#</li><li>.NET 8</li><li>Blazor</li><li>EF Core</li><li>QuickGrid</li>
+              </ul>
+            </div>
+            <a class="project-link" href="https://github.com/Sergey2313-arch/Blazor" target="_blank" rel="noreferrer" aria-label="Открыть Movies Catalog на GitHub">↗</a>
+          </article>
+
+          <article class="project-card reveal">
+            <div class="project-card__number">02</div>
+            <div class="project-card__body">
+              <p class="project-card__type">ASP.NET Core · Razor Pages</p>
+              <h3>Contoso University</h3>
+              <p>
+                Система управления данными университета: студенты, курсы, преподаватели, кафедры и записи на обучение.
+                Проект демонстрирует сложные связи сущностей и асинхронную работу с EF Core.
+              </p>
+              <ul class="tags" aria-label="Технологии проекта">
+                <li>Razor Pages</li><li>SQL Server</li><li>LINQ</li><li>Bootstrap</li>
+              </ul>
+            </div>
+            <a class="project-link" href="https://github.com/Sergey2313-arch/RazorPages" target="_blank" rel="noreferrer" aria-label="Открыть Contoso University на GitHub">↗</a>
+          </article>
+
+          <article class="project-card reveal">
+            <div class="project-card__number">03</div>
+            <div class="project-card__body">
+              <p class="project-card__type">React · External API</p>
+              <h3>Movies & Music Search</h3>
+              <p>
+                React-приложение для поиска фильмов и музыкальных исполнителей через OMDb и TheAudioDB API.
+                Есть обработка загрузки, пустых результатов и сетевых ошибок.
+              </p>
+              <ul class="tags" aria-label="Технологии проекта">
+                <li>React 18</li><li>JavaScript</li><li>Fetch API</li><li>GitHub Pages</li>
+              </ul>
+              <div class="project-card__actions">
+                <a href="https://sergey2313-arch.github.io/MOVIES_REACT" target="_blank" rel="noreferrer">Демо</a>
+                <a href="https://github.com/Sergey2313-arch/MOVIES_REACT" target="_blank" rel="noreferrer">Код</a>
+              </div>
+            </div>
+            <a class="project-link" href="https://sergey2313-arch.github.io/MOVIES_REACT" target="_blank" rel="noreferrer" aria-label="Открыть демо Movies & Music Search">↗</a>
+          </article>
         </div>
-        <div class="settings-panel__group">
-          <button id="vip-open-button" type="button" class="btn-secondary btn-block">Открыть VIP страницу</button>
-          <p class="settings-hint">VIP-страница откроется как отдельное окно с эксклюзивными предложениями.</p>
-        </div>
-        <div class="settings-panel__group">
-          <p class="settings-label">Тема</p>
-          <div class="settings-row">
-            <button type="button" class="settings-btn is-active" data-theme="dark">Тёмный</button>
-            <button type="button" class="settings-btn" data-theme="purple">Фиолетовый</button>
+      </section>
+
+      <section id="stack" class="section stack-section">
+        <div class="section-heading reveal">
+          <div>
+            <p class="eyebrow">Технологии</p>
+            <h2>Мой рабочий стек</h2>
           </div>
         </div>
-        <div class="settings-panel__group">
-          <p class="settings-label">Шрифт</p>
-          <div class="settings-row">
-            <button type="button" class="settings-btn is-active" data-font="normal">Классический</button>
-            <button type="button" class="settings-btn" data-font="modern">Modern</button>
+
+        <div class="stack-grid">
+          <div class="stack-card reveal">
+            <span>01</span>
+            <h3>Backend</h3>
+            <p>C#, .NET 8, ASP.NET Core, Blazor Server, Razor Pages, MVC, REST API.</p>
+          </div>
+          <div class="stack-card reveal">
+            <span>02</span>
+            <h3>Data</h3>
+            <p>Entity Framework Core, SQL Server, LINQ, миграции, проектирование связей.</p>
+          </div>
+          <div class="stack-card reveal">
+            <span>03</span>
+            <h3>Frontend</h3>
+            <p>React, JavaScript, HTML5, CSS3, адаптивная вёрстка, Bootstrap.</p>
+          </div>
+          <div class="stack-card reveal">
+            <span>04</span>
+            <h3>Tools</h3>
+            <p>Git, GitHub, GitHub Actions, Visual Studio, Docker basics, Linux / UNIX basics.</p>
           </div>
         </div>
       </section>
 
-      <div id="vip-screen" class="vip-screen hidden" aria-labelledby="vip-title" aria-modal="true" role="dialog">
-        <div class="vip-card">
-          <button id="vip-close-button" type="button" class="icon-btn close-btn" aria-label="Закрыть VIP">✕</button>
-          <p class="intro-label">VIP Plus</p>
-          <h1 id="vip-title">Эксклюзивные возможности</h1>
-          <p class="intro-text">Вы получите расширенные темы, эффекты, анимации и приоритетный доступ к будущим функциям.</p>
-          <div class="vip-tabs" role="tablist">
-            <button type="button" class="vip-tab-btn is-active" data-plan="month" role="tab" aria-selected="true">1 месяц</button>
-            <button type="button" class="vip-tab-btn" data-plan="year" role="tab" aria-selected="false">1 год</button>
-            <button type="button" class="vip-tab-btn" data-plan="two-years" role="tab" aria-selected="false">2 года</button>
+      <section id="about" class="section about-section">
+        <div class="about-card reveal">
+          <div>
+            <p class="eyebrow">Обо мне</p>
+            <h2>Развиваюсь как .NET-разработчик и собираю сильное портфолио</h2>
           </div>
-          <div class="vip-plan vip-plan--active" data-plan="month">
-            <p class="vip-plan__price">1500 ₽</p>
-            <p class="vip-plan__desc">Краткая подписка на месяц: эффекты, темы и базовый VIP-доступ.</p>
+          <div class="about-card__text">
+            <p>
+              Мне интересна разработка веб-сервисов и продуктов, в которых backend, база данных и интерфейс работают как единая система.
+              В проектах стараюсь не ограничиваться базовым CRUD: добавляю поиск, фильтрацию, пагинацию, обработку ошибок и автоматические проверки.
+            </p>
+            <p>
+              Сейчас ищу первую позицию Junior .NET / ASP.NET Core разработчика, стажировку или проект, где смогу расти вместе с командой.
+            </p>
+            <a class="text-link" href="https://github.com/Sergey2313-arch" target="_blank" rel="noreferrer">Посмотреть весь GitHub →</a>
           </div>
-          <div class="vip-plan" data-plan="year">
-            <p class="vip-plan__price">3000 ₽</p>
-            <p class="vip-plan__desc">Годовая подписка: полный набор Premium-стилей и приоритетные обновления.</p>
-          </div>
-          <div class="vip-plan" data-plan="two-years">
-            <p class="vip-plan__price">5000 ₽</p>
-            <p class="vip-plan__desc">Подписка на 2 года: максимальная экономия и эксклюзивные функции.</p>
-          </div>
-          <button type="button" class="btn-primary">Купить VIP</button>
         </div>
-      </div>
+      </section>
 
-      <button id="settings-toggle" type="button" class="settings-toggle" aria-label="Открыть настройки">
-        <svg viewBox="0 0 24 24" class="settings-toggle__icon" aria-hidden="true">
-          <path d="M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8Zm9.4 4.25-2.03-.4a7.1 7.1 0 0 0-.55-1.32l1.2-1.68a.75.75 0 0 0-.1-.98l-1.5-1.5a.75.75 0 0 0-.98-.1l-1.68 1.2c-.4-.24-.82-.43-1.32-.55l-.4-2.03A.75.75 0 0 0 14.8 4h-1.6a.75.75 0 0 0-.74.62l-.4 2.03c-.5.12-.92.31-1.32.55l-1.68-1.2a.75.75 0 0 0-.98.1l-1.5 1.5a.75.75 0 0 0-.1.98l1.2 1.68c-.24.4-.43.82-.55 1.32l-2.03.4A.75.75 0 0 0 4 12.8v1.6c0 .4.31.74.7.75l2.03.4c.12.5.31.92.55 1.32l-1.2 1.68a.75.75 0 0 0 .1.98l1.5 1.5c.3.3.78.32 1.08.1l1.68-1.2c.4.24.82.43 1.32.55l.4 2.03c.04.4.39.7.79.7h1.6c.4 0 .74-.31.75-.7l.4-2.03c.5-.12.92-.31 1.32-.55l1.68 1.2c.3.22.78.2 1.08-.1l1.5-1.5c.3-.3.32-.78.1-1.08l-1.2-1.68c.24-.4.43-.82.55-1.32l2.03-.4c.4-.08.7-.43.7-.83v-1.6c0-.4-.3-.75-.7-.83Z"/>
-        </svg>
-      </button>
-
-      <footer class="panel panel--footer" aria-label="Управление списком">
-        <div id="stats" class="stats"></div>
-        <div class="actions">
-          <button id="toggle-all" type="button" class="btn-secondary">Переключить все</button>
-          <button id="clear-completed" type="button" class="btn-danger">Удалить выполненные</button>
-        </div>
-      </footer>
+      <section class="section contact-section reveal">
+        <p class="eyebrow">Связаться</p>
+        <h2>Есть задача или вакансия?</h2>
+        <p>Открыт к стажировкам, junior-позициям и совместной работе над веб-проектами.</p>
+        <a class="button" href="https://github.com/Sergey2313-arch" target="_blank" rel="noreferrer">Написать через GitHub</a>
+      </section>
     </main>
 
-    <template id="todo-item-template">
-      <li class="todo-item">
-        <label class="todo-main">
-          <input class="todo-checkbox" type="checkbox" />
-          <span class="todo-text"></span>
-        </label>
-        <div class="todo-actions">
-          <button type="button" class="icon-btn edit-btn" aria-label="Редактировать">✎</button>
-          <button type="button" class="icon-btn remove-btn" aria-label="Удалить">✕</button>
-        </div>
-      </li>
-    </template>
+    <footer class="footer">
+      <p>© <span id="year"></span> Sergey Korobkov</p>
+      <p>Built with HTML, CSS & JavaScript</p>
+    </footer>
 
     <script src="app.js"></script>
   </body>
